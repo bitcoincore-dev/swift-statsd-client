@@ -10,6 +10,7 @@ import Foundation
 
 public class HTTPTransport: NSObject, Transport {
     let endpoint: URL
+    let httpMethod: String
 
     lazy var urlSession: URLSessionDataProtocol = {
         let session = URLSession(configuration: configuration,
@@ -19,11 +20,30 @@ public class HTTPTransport: NSObject, Transport {
     }()
 
     private var completionBlocks = [Int: TransportCompletionCallback]()
+    private var completionLock = NSLock()
+
+    /// Access the completion block in a thread-safe manner.
+    subscript(tag: Int) -> TransportCompletionCallback? {
+        get {
+            completionLock.lock()
+            defer { completionLock.unlock() }
+            return completionBlocks[tag]
+        }
+        set {
+            completionLock.lock()
+            defer { completionLock.unlock() }
+            completionBlocks[tag] = newValue
+        }
+    }
+
     private let configuration: URLSessionConfiguration
 
-    public init(endpoint: URL, configuration: URLSessionConfiguration = URLSessionConfiguration.default) {
+    public init(endpoint: URL,
+                httpMethod: String = "POST",
+                configuration: URLSessionConfiguration = URLSessionConfiguration.default) {
         self.endpoint = endpoint
         self.configuration = configuration
+        self.httpMethod = httpMethod
     }
 
     public func write(data: String, completion: TransportCompletionCallback?) {
@@ -33,22 +53,22 @@ public class HTTPTransport: NSObject, Transport {
         }
 
         var request = URLRequest(url: endpoint)
-        request.httpMethod = "POST"
+        request.httpMethod = httpMethod
         request.httpBody = data
 
         let task = urlSession.dataTask(with: request)
 
-        completionBlocks[task.taskIdentifier] = completion
+        self[task.taskIdentifier] = completion
         task.resume()
     }
 }
 
 extension HTTPTransport: URLSessionDataDelegate {
     public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        guard let callback = completionBlocks[task.taskIdentifier] else {
+        guard self[task.taskIdentifier] != nil else {
             return
         }
-        callback(error)
-        completionBlocks[task.taskIdentifier] = nil
+        self[task.taskIdentifier]?(error)
+        self[task.taskIdentifier] = nil
     }
 }
