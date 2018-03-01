@@ -35,7 +35,7 @@ HTTP CLient
 
 _Use [docker-graphite-statsd](https://github.com/khoiracle/docker-graphite-statsd) Docker's image to test the HTTP interface_
 ```swift
-let statsD = StatsD(transport: HTTPTransport(endpoint: URL(string: "https://localhost:8127/statsd")!)
+let statsD = StatsD(transport: HTTPTransport(endpoint: URL(string: "https://localhost:8127/statsd")!))
 ```
 
 And if you want to customize your HTTP request
