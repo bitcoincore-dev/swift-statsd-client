@@ -26,7 +26,7 @@ public struct Gauge: Metric, Codable {
         self.name = name
         self.value = value
     }
-    
+
     public var metricData: String {
         return "\(name):\(value)|g"
     }
