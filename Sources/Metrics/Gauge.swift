@@ -13,20 +13,20 @@ public struct Gauge: Metric, Codable {
     let value: String
     let sample: Float? = nil
 
-    private init(name: String, value: String) {
-        self.name = name
-        self.value = value
-    }
-
-    init(name: String, value: UInt) {
+    public init(name: String, value: UInt) {
         self.init(name: name, value: "\(value)")
     }
 
-    init(name: String, delta: Int) {
+    public init(name: String, delta: Int) {
         let prefix = delta >= 0 ? "+" : "-"
         self.init(name: name, value: "\(prefix)\(abs(delta))")
     }
 
+    private init(name: String, value: String) {
+        self.name = name
+        self.value = value
+    }
+    
     public var metricData: String {
         return "\(name):\(value)|g"
     }

@@ -10,14 +10,10 @@ import Foundation
 
 public struct Counting: Metric, Codable {
     let name: String
-    let value: String
+    let value: Int
     let sample: Float?
 
-    init(name: String, value: Int, sample: Float? = nil) {
-        self.init(name: name, value: "\(value)", sample: sample)
-    }
-
-    init(name: String, value: String, sample: Float? = nil) {
+    public init(name: String, value: Int, sample: Float? = nil) {
         self.name = name
         self.value = value
         self.sample = sample

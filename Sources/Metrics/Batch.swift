@@ -12,7 +12,7 @@ public struct Batch: Metric {
 
     public var metricData: String
 
-    init(metrics: Metric...) {
+    public init(metrics: Metric...) {
         metricData = metrics.map { $0.metricData }.joined(separator: "\n")
     }
 }

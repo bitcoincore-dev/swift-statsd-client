@@ -12,7 +12,7 @@ public struct Sets: Metric, Codable {
     let name: String
     let value: String
 
-    init(name: String, value: String) {
+    public init(name: String, value: String) {
         self.name = name
         self.value = value
     }

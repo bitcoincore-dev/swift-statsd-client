@@ -30,7 +30,7 @@ public class StatsD: NSObject, StatsDProtocol {
     }
 
     public func increment(_ bucket: String, by value: Int = 1, completion: StatsDCompletionCallback? = nil) {
-        write(metric: Counting(name: bucket, value: "\(value)"), completion: completion)
+        write(metric: Counting(name: bucket, value: value), completion: completion)
     }
 
     public func set(_ bucket: String, value: String, completion: StatsDCompletionCallback? = nil) {
