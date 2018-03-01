@@ -43,7 +43,7 @@ And if you want to customize your HTTP request
 let statsD: StatsD = {
     let configuration = URLSessionConfiguration()
     configuration.httpAdditionalHeaders = ["token": "Some Super Secret Token"]
-    return StatsD(transport: HTTPTransport(endpoint: URL(string: "https://localhost:8127/statsd")!,
+    return StatsD(transport: HTTPTransport(endpoint: URL(string: "http://localhost:8127/statsd")!,
                                       configuration: configuration))
 }()
 ```
