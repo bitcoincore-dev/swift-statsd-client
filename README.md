@@ -2,7 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/zalora/swift-statsd-client.svg?style=svg)](https://circleci.com/gh/zalora/swift-statsd-client)
 
-A Statsd Client written in Swift that is transport protocol agnostic. UDP and HTTP are supported out of the box.
+A Statsd Client written purely in Swift
 
 - [Requirements](#requirements)
 - [Usage](#usage)
@@ -20,16 +20,6 @@ A Statsd Client written in Swift that is transport protocol agnostic. UDP and HT
 ## Usage
 
 ### Initializing the client
-
-UDP Client
-```swift
-let statsD = StatsD(transport: UDPTransport(host: "localhost", port: 2003))
-```
-
-TCPClient
-```swift
-let statsD = StatsD(transport: TCPTransport(host: "localhost", port: 2003))
-```
 
 HTTP CLient
 
