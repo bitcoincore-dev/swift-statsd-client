@@ -33,7 +33,7 @@ let statsD = StatsD(transport: TCPTransport(host: "localhost", port: 2003))
 
 HTTP CLient
 
-_Use [docker-graphite-statsd](https://github.com/khoiracle/docker-graphite-statsd) Docker's image to test the HTTP interface_
+_Use [docker-graphite-statsd](https://github.com/khoi/docker-graphite-statsd) Docker's image to test the HTTP interface_
 ```swift
 let statsD = StatsD(transport: HTTPTransport(endpoint: URL(string: "https://localhost:8127/statsd")!))
 ```
