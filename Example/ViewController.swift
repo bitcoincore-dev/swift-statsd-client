@@ -14,7 +14,8 @@ class ViewController: UIViewController {
     let statsD = StatsD(transport: HTTPTransport(endpoint: URL(string: "http://localhost:8127")!, configuration: .default))
     
     @IBOutlet weak var countBucketLabel: UITextField!
-    
+    @IBOutlet weak var gaugeValueLabel: UITextField!
+    @IBOutlet weak var gaugeBucketLabel: UITextField!
     @IBOutlet weak var statusLabel: UILabel!
     
     override func viewDidLoad() {
@@ -30,5 +31,13 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func gaugePressed(_ sender: Any) {
+        statusLabel.text = ""
+        statsD.gauge(gaugeBucketLabel.text!, delta: Int(gaugeValueLabel.text!) ?? 0) { (success) in
+            DispatchQueue.main.async {
+                self.statusLabel.text = "\(success)"
+            }
+        }
+    }
 }
 
